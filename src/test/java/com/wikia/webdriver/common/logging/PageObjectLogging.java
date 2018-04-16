@@ -321,10 +321,14 @@ public class PageObjectLogging extends AbstractWebDriverEventListener implements
       } else {
         if (driver.getCurrentUrl().contains("data:text/html,chromewebdata ")) {
           driver.get(url);
+          logWarning("Url after navigation", driver.getCurrentUrl());
         } else if (driver.getCurrentUrl().contains(URLsContent.NOT_A_VALID_COMMUNITY)) {
-          throw new WebDriverException("Invalid url, redirected to Not_a_valid_community page");
+          logWarning("Url after navigation", driver.getCurrentUrl());
+          driver.get("http://www.google.pl");
+          PageObjectLogging.log("Workaround", "Redirected to google page", true);
+//          throw new SkipException("Invalid url, redirected to Not_a_valid_community page");
         }
-        logWarning("Url after navigation", driver.getCurrentUrl());
+//        logWarning("Url after navigation", driver.getCurrentUrl());
       }
     } else {
       logWarning("Url after navigation", "Unable to check URL after navigation - alert present");
