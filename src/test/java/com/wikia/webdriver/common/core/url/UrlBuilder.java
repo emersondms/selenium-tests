@@ -127,9 +127,15 @@ public class UrlBuilder {
     String www = addWWW ? "www." : "";
     String host = getFormattedWikiHost(www, wikiaName, envType, language);
 
-    if (!("en").equals(language) && forceLanguageInPath) {
-        urlBuilder.addEncodedPathSegments(language);
+//    if (!("en").equals(language) && forceLanguageInPath) {
+//      urlBuilder.addEncodedPathSegments(language);
+//    }
+
+//    Workaround to run tests with language in path using szl language on regular english wikis
+    if (forceLanguageInPath) {
+      urlBuilder.addEncodedPathSegments("szl");
     }
+
     return urlBuilder.scheme(getUrlProtocol()).host(host).build().toString().replaceFirst("/$","");
   }
 
@@ -204,6 +210,7 @@ public class UrlBuilder {
   }
 
   public String appendQueryStringToURL(String url, String qs) {
+
     String separator = url.contains("?") ? "&" : "?";
 
     String[] filteredUrl = url.split("#");
